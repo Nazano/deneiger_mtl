@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""
+Script de contrôle du générateur de chemin pour le drône
+"""
+
+import argparse
+from drone import drone_path
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Script de contrôle du générateur de chemin pour le drône')
+    parser.add_argument('file', help=f"Chemin d'accès vers un fichier au format .osm.\
+        Un ensemble de fichers .osm sont proposés dans le dossier data.")
+    parser.add_argument('-a', dest='animation', action='store_true', help="Visualiser le résultat sous forme d'animation. Le traitment est plus long.")
+    parser.add_argument('--nostats', dest='stats', action='store_false', default=True, help=f"Ne plus afficher les statistiques concernant le drone")
+    parser.add_argument('--atemp', nargs=1, help="Répertoire dans lequel sauvgarder les fichiers temporaires pour créer l'animation. Par défaut le dossier /tmp/")
+    args = parser.parse_args()
+    args_cleaned = { k:v for k, v in vars(args).items() if v is not None }
+    drone_path(**args_cleaned)
+    

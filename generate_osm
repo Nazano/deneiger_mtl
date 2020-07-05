@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""
+Script permettant de générer un fichier .osm depuis une addresse
+"""
+
+import argparse
+import osmnx as ox
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Script permettant de générer un fichier .osm depuis une addresse")
+    parser.add_argument("address", help="Adresse à utiliser pour générer le ficher .osm")
+    parser.add_argument('-d', dest="distance", type=int, help="Taille de la zone à échantilloner")
+    args = parser.parse_args()
+    args_cleaned = { k:v for k, v in vars(args).items() if v is not None }
+    G = ox.graph_from_address(**args_cleaned)
+    ox.save_graphml(G, filename=args.address)
